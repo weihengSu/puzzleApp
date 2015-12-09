@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -56,6 +57,7 @@ public class puzzleMainGui extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 850, 800);
 		contentPane = new JPanel();
+		contentPane.setForeground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -72,15 +74,30 @@ public class puzzleMainGui extends JFrame {
 		contentPane.add(btnReadFile);
 		
 		JPanel displayPlane = new JPanel();
+		displayPlane.setBackground(Color.WHITE);
 		displayPlane.setBounds(10, 27, 450, 616);
+		displayPlane.setOpaque(true);
+		displayPlane.setVisible(true);
+		displayPlane.setFocusable(true);
+		displayPlane.setBorder(BorderFactory.createTitledBorder("Puzzle"));
 		contentPane.add(displayPlane);
 		
 		JPanel tiles = new JPanel();
+		tiles.setBackground(Color.WHITE);
 		tiles.setBounds(488, 27, 336, 616);
+		tiles.setOpaque(true);
+		tiles.setVisible(true);
+		tiles.setFocusable(true);
+		tiles.setBorder(BorderFactory.createTitledBorder("Tiles"));
 		contentPane.add(tiles);
 		
 		JPanel results = new JPanel();
+		results.setBackground(Color.WHITE);
 		results.setBounds(153, 665, 671, 86);
+		results.setOpaque(true);
+		results.setVisible(true);
+		results.setFocusable(true);
+		results.setBorder(BorderFactory.createTitledBorder("Tiles"));
 		contentPane.add(results);
 	}
 }
