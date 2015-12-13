@@ -72,7 +72,7 @@ public class parseFile {
 		for (int i = 0; i < charFile[0].length + 2; i++) {
 			System.out.print("-");
 		}
-		//System.out.println();
+		System.out.println();
 		for (int i = 0; i < charFile.length; i++) {
 			System.out.print("|");
 			for (int j = 0; j < charFile[0].length; j++) {
@@ -83,7 +83,7 @@ public class parseFile {
 		for (int i = 0; i < charFile[0].length + 2; i++) {
 			System.out.print("-");
 		}
-		//System.out.println();
+		System.out.println();
 	}
 /**
  * 
@@ -118,31 +118,32 @@ public class parseFile {
 	}
 
 	/**
-	 * Crop the leftmost blank and create the tile 2d array.
+	 * 
 	 *
-	 * @param buf_p
+	 * create an array
 	 * @return
 	 */
-	private Tile cropTile(char[][] buf_p) {
+	private Tile cropTile(char[][] charFile) {
 		/* move to leftmost */
-		int col_offset = -1;
-		for (int col = 0; col < buf_p[0].length; col++) {
-			for (int row = 0; row < buf_p.length; row++) {
-				if (buf_p[row][col] != S) {
-					if (col_offset < 0)
-						col_offset = col;
-					if (col_offset > 0) {
-						buf_p[row][col - col_offset] = buf_p[row][col];
-						buf_p[row][col] = S;
+		int c = -1;
+		for (int i = 0; i < charFile[0].length; i++) {
+			for (int j = 0; j < charFile.length; j++) {
+				if (charFile[j][i] != ' ') {
+					if (c < 0)
+						c = i;
+					if (c > 0) {
+					
+						charFile[i][j - c] = charFile[j][i];
+						charFile[j][i] = ' ';
 					}
 				}
 			}
 		}
 		/* calculate tile size */
 		int piece_h = 0;
-		for (int row = buf_p.length - 1; row >= 0; row--) {
-			for (int col = buf_p[0].length - 1; col >= 0; col--) {
-				if (buf_p[row][col] != S) {
+		for (int row = charFile.length - 1; row >= 0; row--) {
+			for (int col = charFile[0].length - 1; col >= 0; col--) {
+				if (charFile[row][col] != ' ') {
 					piece_h = row + 1;
 					break;
 				}
@@ -151,9 +152,9 @@ public class parseFile {
 				break;
 		}
 		int piece_w = 0;
-		for (int col = buf_p[0].length - 1; col >= 0; col--) {
-			for (int row = buf_p.length - 1; row >= 0; row--) {
-				if (buf_p[row][col] != S) {
+		for (int col = charFile[0].length - 1; col >= 0; col--) {
+			for (int row = charFile.length - 1; row >= 0; row--) {
+				if (charFile[row][col] != ' ') {
 					piece_w = col + 1;
 					break;
 				}
@@ -166,8 +167,8 @@ public class parseFile {
 		char[][] data = new char[piece_h][piece_w];
 		for (int row = 0; row < piece_h; row++) {
 			for (int col = 0; col < piece_w; col++) {
-				data[row][col] = buf_p[row][col];
-				buf_p[row][col] = S;
+				data[row][col] = charFile[row][col];
+				charFile[row][col] = ' ';
 			}
 		}
 
@@ -195,12 +196,12 @@ public class parseFile {
 				buf_cols = lines[row].length();
 		}
 		buf_cols += 2;
-		char[][] buf = new char[buf_rows][buf_cols]; // buf for input
-		char[][] buf_p = new char[buf_rows][buf_cols]; // buf for piece
+		char[][] buf = new char[buf_rows][buf_cols]; 
+		char[][] buf_p = new char[buf_rows][buf_cols]; 
 		for (int row = 0; row < buf_rows; row++) {
 			for (int col = 0; col < buf_cols; col++) {
-				buf[row][col] = S;
-				buf_p[row][col] = S;
+				buf[row][col] = ' ';
+				buf_p[row][col] = ' ';
 			}
 		}
 		for (int row = 0; row < lines.length; row++) {
@@ -212,8 +213,8 @@ public class parseFile {
 		/* Find and add tiles. */
 		for (int row = 1; row < buf_rows - 1; row++) {
 			for (int col = 1; col < buf_cols - 1; col++) {
-				if (buf[row][col] != S) {
-					copyTile(buf, buf_p, row, col, row);
+				if (buf[row][col] != ' ') {
+					tileReplicate(buf, buf_p, row, col, row);
 					Tile tile = cropTile(buf_p);
 					tiles.add(tile);
 				}
